@@ -1,5 +1,5 @@
 variable "allowed_ports" {
-  default     = ["80", "443", "8080", "22"]
+  default     = ["80", "443", "8080", "22", "9100", "9090"]
   description = "List of ports allowed on servers"
 }
 
@@ -14,3 +14,10 @@ variable "env" {
 }
 
 variable "subnet_id" {}
+
+variable "key_pub" {
+  default = "id_rsa"
+}
+variable "key_count" {
+  default = 0
+}

@@ -10,10 +10,13 @@ data "aws_ami" "latest_amazon_linux" {
     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
-
+resource "null_resource" "key" {
+  count = var.key_pub
+}
 resource "aws_key_pair" "master_key" {
-  key_name = "id_rsa"
+  key_name = var.key_pub
   public_key = file("~/.ssh/id_rsa.pub")
+  depends_on = [null_resource.key]
 }
 data "aws_subnet" "web" {
   id = var.subnet_id
