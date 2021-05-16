@@ -25,15 +25,7 @@ resource "aws_instance" "web_server" {
   subnet_id              = var.subnet_id
   associate_public_ip_address = true
   key_name = aws_key_pair.master_key.key_name
-  user_data              = <<EOF
-#!/bin/bash
-sudo yum -y update
-sudo yum -y install httpd
-myip=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
-echo "<h2>WebServer with IP: $myip </h2><br>" > /var/www/html/index.html
-sudo service httpd start
-chkconfig httpd on
-EOF
+  user_data              = file("user_data.sh")
   tags = {
     Name  = "${var.env}-WebServer"
 
