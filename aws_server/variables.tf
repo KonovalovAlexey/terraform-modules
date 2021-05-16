@@ -18,6 +18,3 @@ variable "subnet_id" {}
 variable "key_pub" {
   default = "id_rsa"
 }
-variable "key_count" {
-  default = 0
-}
