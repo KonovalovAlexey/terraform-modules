@@ -9,13 +9,17 @@
 #
 
 #----------------------------------------------------------
-terraform {
-  backend "s3" {
-    bucket = "project-terraform-remote"
-    key = "${var.env}/network/terraform.tfstate"
-    region = "eu-central-1"
-  }
-}
+//provider "aws" {
+//  region = "eu-central-1"
+//}
+
+//terraform {
+//  backend "s3" {
+//    bucket = "project-terraform-remote"
+//    key = "dev/network/terraform.tfstate"
+//    region = "eu-central-1"
+//  }
+//}
 
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
@@ -71,7 +75,8 @@ resource "aws_subnet" "public_subnets" {
   cidr_block        = element(var.public_subnets, count.index )
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.env}-public-${count.index + 1}"
+//    Name = "${var.env}-public-${count.index + 1}"
+    Name = "${var.env}-pub-sub-${element(var.alfabetic, count.index )}"
   }
 }
 
@@ -81,7 +86,7 @@ resource "aws_eip" "nat" {
   count = length(var.private_subnets)
   vpc = true
   tags = {
-    Name = "${var.env}-nat-ip-${count.index} +1"
+    Name = "${var.env}-nat-ip-${element(var.alfabetic, count.index )}"
   }
 }
 
@@ -90,7 +95,7 @@ resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat[count.index].id
   subnet_id = element(aws_subnet.private_subnets[*].id, count.index)
   tags = {
-    Name = "${var.env}-nat-gw-${count.index + 1}"
+    Name = "${var.env}-nat-gw-${element(var.alfabetic, count.index )}"
   }
 }
 
@@ -102,7 +107,7 @@ resource "aws_subnet" "private_subnets" {
   vpc_id = aws_vpc.main.id
   availability_zone = data.aws_availability_zones.azs.names[count.index]
   tags = {
-    Name = "${var.env}-private-${count.index + 1}"
+    Name = "${var.env}-private-${element(var.alfabetic, count.index )}"
   }
 }
 

@@ -17,3 +17,6 @@ output "private_subnet_ids" {
 output "igw" {
   value = aws_internet_gateway.igw.id
 }
+output "availability_zones" {
+  value = data.aws_availability_zones.azs.names
+}

@@ -19,3 +19,7 @@ variable "private_subnets" {
   "10.0.22.0/24"
   ]
 }
+
+variable "alfabetic" {
+  default = ["a", "b", "c"]
+}

@@ -1,6 +1,6 @@
 variable "dns-name" {
   type    = string
-  default = "adv-host.co.uk"
+  default = "buleiko.link"
 }
 
 variable "web_name" {
@@ -8,4 +8,7 @@ variable "web_name" {
   default = "test"
 }
 
-variable "public_ip" {}
+variable "public_ip" {
+  type = string
+}
+
