@@ -7,8 +7,12 @@ output "vpc_cidr" {
   value = aws_vpc.main.cidr_block
 }
 
-output "public_subnet_ids" {
-  value = aws_subnet.public_subnets[*].id
+output "public_subnet_id_a" {
+  value = aws_subnet.public_subnets[0].id
+}
+
+output "public_subnet_id_b" {
+  value = aws_subnet.public_subnets[1].id
 }
 
 output "private_subnet_ids" {
@@ -20,3 +24,4 @@ output "igw" {
 output "availability_zones" {
   value = data.aws_availability_zones.azs.names
 }
+

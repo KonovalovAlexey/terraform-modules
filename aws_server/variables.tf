@@ -1,7 +1,7 @@
-//variable "allowed_ports" {
-//  default     = ["80", "443", "8080", "22", "9100", "9090"]
-//  description = "List of ports allowed on servers"
-//}
+variable "allowed_ports" {
+  default     = ["80", "443", "8080", "22", "9100", "9090"]
+  description = "List of ports allowed on servers"
+}
 
 
 variable "external_ip" {
@@ -16,6 +16,7 @@ variable "env" {
 variable "subnet_id" { type = string}
 
 variable "key_pub" {
+  default = "id_rsa"
 }
 
 variable "vpc_id" { type = string }
@@ -23,7 +24,7 @@ variable "vpc_id" { type = string }
 variable "alfabetic" {
   default = ["a", "b", "c"]
 }
-variable "sg" {}
+//variable "sg" {}
 
 variable "count_web" {
   default = 1
