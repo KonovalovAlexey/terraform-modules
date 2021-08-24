@@ -9,13 +9,13 @@ data "terraform_remote_state" "admin" {
 }
 
 resource "aws_iam_instance_profile" "test_profile" {
-  name = "profile-imagebuilder"
+  name = "Profile-imagebuilder"
   role = aws_iam_role.imagebuilder_role.name
 }
 
 resource "aws_iam_role" "imagebuilder_role" {
   description = "Allows EC2 instances to call AWS services on your behalf"
-  name        = "imagebuilder-role"
+  name        = "Imagebuilder-role"
   path        = "/"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -52,6 +52,10 @@ resource "aws_iam_role_policy_attachment" "imagebuilder_ssm_role" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_role_policy_attachment" "codepipeline_role" {
+  role       = aws_iam_role.imagebuilder_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodePipelineReadOnlyAccess"
+}
 resource "aws_imagebuilder_infrastructure_configuration" "instance" {
   description           = "PyApp-infra"
   instance_profile_name = aws_iam_instance_profile.test_profile.name
@@ -64,7 +68,6 @@ resource "aws_imagebuilder_infrastructure_configuration" "instance" {
   //  sns_topic_arn                 = aws_sns_topic.example.arn
   subnet_id                     = data.terraform_remote_state.admin.outputs.public_subnet_id_a
   terminate_instance_on_failure = true
-
   logging {
     s3_logs {
       s3_bucket_name = data.terraform_remote_state.admin.config.bucket
